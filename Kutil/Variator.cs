@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using javax.xml.transform;
-using javax.xml.soap;
 
 namespace Kutil.G2p
 {

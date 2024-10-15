@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kutil", "Kutil\Kutil.csproj", "{7F61DA97-312B-4E9A-8D46-259D3B6B419B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kutil.Test", "Kutil.Test\Kutil.Test.csproj", "{268A4994-2819-4F8C-8F4D-E2C38969C110}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F61DA97-312B-4E9A-8D46-259D3B6B419B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F61DA97-312B-4E9A-8D46-259D3B6B419B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F61DA97-312B-4E9A-8D46-259D3B6B419B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F61DA97-312B-4E9A-8D46-259D3B6B419B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{268A4994-2819-4F8C-8F4D-E2C38969C110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268A4994-2819-4F8C-8F4D-E2C38969C110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268A4994-2819-4F8C-8F4D-E2C38969C110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268A4994-2819-4F8C-8F4D-E2C38969C110}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {125690CB-451A-487B-AFF0-EE0A487657D5}
+	EndGlobalSection
+EndGlobal
