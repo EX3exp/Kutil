@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetKiwi;
 
 namespace Kutil.G2p
 {
@@ -20,16 +21,7 @@ namespace Kutil.G2p
             try
             {
                 string text = word;
-                Hangeul[] hangeuls = new Hangeul[word.Length];
-                for (int i = 0; i < word.Length; i++)
-                {
-                    if (word[i] == ' ')
-                    {
-                        continue;
-                    }
-                    hangeuls[i] = new Hangeul(word[i]);
-                }
-
+                Word kWord = new Word(text);
                 return text;
                 
             }

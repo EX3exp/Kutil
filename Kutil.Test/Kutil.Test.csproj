@@ -14,7 +14,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
     <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+    <PackageReference Include="NetKiwi" Version="1.4.0" />
   </ItemGroup>
+  
 
   <ItemGroup>
     <ProjectReference Include="..\Kutil\Kutil.csproj" />
@@ -23,5 +25,5 @@
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
-
+  
 </Project>

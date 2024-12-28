@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Kutil.Datas;
 
+
 namespace Kutil.Formats
 {
     public class Hangeul
@@ -51,7 +52,36 @@ namespace Kutil.Formats
             set { }
         }
 
-       
+        public bool IsFirstIs(char target)
+        {
+            return First == target;
+        }
+
+        public bool IsFirstIsIn(char[] targets)
+        {
+            return targets.Contains(First);
+        }
+
+        public bool IsMiddleIs(char target)
+        {
+            return Middle == target;
+        }
+
+        public bool IsMiddleIsIn(char[] targets)
+        {
+            return targets.Contains(Middle);
+        }
+
+        public bool IsLastIs(char target)
+        {
+            return Last == target;
+        }
+
+        public bool IsLastIsIn(char[] targets)
+        {
+            return targets.Contains(Last);
+        }
+
 
         /// <summary>
         /// Separates complete hangeul string's first character in three parts - firstConsonant(초성), middleVowel(중성), lastConsonant(종성).
