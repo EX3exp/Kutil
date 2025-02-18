@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using static Kutil.Datas;
 
 
-namespace Kutil.Formats
+namespace Kutil.Formats.Korean
 {
     public class Hangeul
     {

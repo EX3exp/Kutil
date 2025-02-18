@@ -4,6 +4,7 @@ using Kutil;
 using Kutil.Formats;
 using static Kutil.G2P;
 using System.Diagnostics;
+using Kutil.Formats.Korean;
 namespace Kutil.Test
 {
     [TestClass]
