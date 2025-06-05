@@ -36,16 +36,17 @@ namespace Kutil.Formats.Result
         // 독립언_Orthotone
         [Description("감탄사")] O_Exclamation,//감탄사
 
-        // 관계언(조사+접속사)_Particle
-        [Description("주격조사")] P_SubjectMarker,//주격조사
-        [Description("보격조사")] P_ComplementMarker,//보격조사
-        [Description("관형격조사")] P_DeterminerMarker,//관형격조사
-        [Description("목적격조사")] P_ObjectMarker,//목적격조사
-        [Description("부사격조사")] P_AdverbialMarker,//부사격조사
-        [Description("호격조사")] P_VocativeMarker,//호격조사
-        [Description("인용격조사")] P_QuotationMarker,//인용격조사
-        [Description("보조격조사")] P_AuxiliaryMarker,//보조격조사
-        [Description("접속조사")] P_ConjunctiveMarker,//접속조사
+        // 관계언(조사+접속사)_ParTicle
+        [Description("주격조사")] T_SubjectMarker,//주격조사
+        [Description("보격조사")] T_ComplementMarker,//보격조사
+        [Description("관형격조사")] T_DeterminerMarker,//관형격조사
+        [Description("목적격조사")] T_ObjectMarker,//목적격조사
+        [Description("부사격조사")] T_AdverbialMarker,//부사격조사
+        [Description("호격조사")] T_VocativeMarker,//호격조사
+        [Description("인용격조사")] T_QuotationMarker,//인용격조사
+        [Description("보조사")] T_AuxiliaryMarker,//보조사
+        [Description("접속조사")] T_ConjunctiveMarker,//접속조사
+
 
         // 어미_Ending
         [Description("선어말어미")] E_PrefinalEnding,//선어말어미
@@ -68,8 +69,6 @@ namespace Kutil.Formats.Result
         [Description("마침표")] M_Terminal,//마침표
         [Description("구분자")] M_Separator,//구분자
         [Description("인용부호")] M_Quotation,//인용부호
-        [Description("인용부호 (여는 부호)")] M_OpenedQuotation,//인용부호(여는 부호)
-        [Description("인용부호 (닫는 부호)")] M_ClosedQuotation,//인용부호(닫는 부호)
         [Description("줄임표")] M_Elipsis,//줄임표
         [Description("붙임표")] M_Dash,//붙임표
         [Description("기타 문자")] M_Others,//기타
@@ -82,8 +81,13 @@ namespace Kutil.Formats.Result
         [Description("알 수 없음")] N_Unknown,//알 수 없음
         [Description("기타")] N_Others,//기타
 
+        [Description("사이시옷")] N_Siot,//사이시옷
+
     }
 
+    /// <summary>
+    /// Kutil에서 공용으로 사용하는 토큰 객체.
+    /// </summary>
     public struct KToken
     {
         /// <summary>
@@ -95,32 +99,71 @@ namespace Kutil.Formats.Result
         /// </summary>
         public Morphs morph;
         /// <summary>
-        /// 형태소 분석 결과의 단어 인덱스.
+        /// 형태소 분석 결과의 단어(어절) 인덱스.(공백 기준)
         /// </summary>
-        public uint wordPosition;
+        public int wordPosition;
+        /// <summary>
+        /// 형태소 분석 결과의 줄 인덱스.
+        /// </summary>
+        public int lineNo;
+
+        /// <summary>
+        /// 분석 대상의 글자 시작 인덱스
+        /// </summary>
+        public int charPosition;
+
+        /// <summary>
+        /// 분석 대상의 길이
+        /// </summary>
+        public int length;
+
         /// <summary>
         /// 형태소 분석 결과의 문장 인덱스.
         /// </summary>
-        public uint lineNo;
+        public int sentPosition;
 
-        public KToken(string form, uint lineNo, Morphs morph)
+        public KToken(string form, int lineNo, int sentPos, int wordPos, int charPos, int length, Morphs morph)
         {
             this.form = form;
             this.lineNo = lineNo;
             this.morph = morph;
-            this.wordPosition = 0;
+            this.wordPosition = wordPos;
+            this.sentPosition = sentPos;
+            this.charPosition = charPos;
+            this.length = length;
+
         }
     }
     /// <summary>
-    /// 형태소 분석기의 결과 객체입니다.
+    /// 형태소 분석기의 한 문장당 결과를 의미하는 객체입니다. 
     /// </summary>
-    public struct KResult
+    public struct KSmallResult
     {
         public KToken[] KTokens;
 
-        public KResult(KToken[] tokens)
+        public KSmallResult(KToken[] tokens)
         {
             KTokens = tokens;
         }
     }
+
+    /// <summary>
+    /// Kutil에서 최종적으로 사용하는 결과 객체.
+    /// Result의 한 원소는 한 문장을 의미합니다.
+    /// </summary>
+    public struct KResult
+    {
+        public KSmallResult[] SentResults;
+        public string Text { get; private set; }
+        public int SentLength {  get; private set; }
+        public KResult(string text, KSmallResult[] results)
+        {
+            Text = text;
+            SentResults = results;
+            SentLength = results.Length;
+        }
+
+    }
+   
+
 }

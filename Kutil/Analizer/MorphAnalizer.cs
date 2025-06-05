@@ -60,9 +60,9 @@ namespace Kutil.Analizer
             
         }
 
-        public KResult[] Analyze(string sentence)
+        public KResult Analyze(string text)
         {
-            return _analizer.Analyze(sentence);
+            return _analizer.Analyze(text);
         }
 
         public void Dispose()

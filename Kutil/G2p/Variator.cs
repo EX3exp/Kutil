@@ -17,7 +17,7 @@ namespace Kutil.G2p
             try
             {
                 string text = word;
-                Word kWord = new Word(text, analizerType);
+                //Word kWord = new Word(text, analizerType);
                 return text;
                 
             }

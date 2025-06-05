@@ -86,6 +86,7 @@ namespace Kutil.Formats.Korean
         /// <summary>
         /// Separates complete hangeul string's first character in three parts - firstConsonant(초성), middleVowel(중성), lastConsonant(종성).
         /// <br/>입력된 문자열의 0번째 글자를 초성, 중성, 종성으로 분리합니다.
+        /// 한글이 아닌 글자의 경우, first에 모든 글자를 표기합니다.
         /// </summary>
         /// <param name="character"> A string of complete Hangeul character.
         /// <br/>(Example: '냥') 
@@ -165,20 +166,34 @@ namespace Kutil.Formats.Korean
         }
         public Hangeul (char first, char mid, char last)
         {
-
-            this.First = first;
-            this.Middle = mid;
-            this.Last = last;
-            this.IsValid = true;
+            if (IsHangeul(first) && IsHangeul(mid) && IsHangeul(last))
+            {
+                this.First = first;
+                this.Middle = mid;
+                this.Last = last;
+                this.IsValid = true;
+            }
+            else
+            {
+                throw new ArgumentException($"해당 초성- {first}, 중성- {mid}, 종성- {last} 중 한글이 아닌 글자가 존재합니다.");
+            }
         }
 
         public Hangeul(char character)
         {
-            Hashtable separated = Separate(character);
-            this.First = (char)separated[0];
-            this.Middle = (char)separated[1];
-            this.Last = (char)separated[2];
-            this.IsValid = true;
+            if (IsHangeul(character))
+            {
+                Hashtable separated = Separate(character);
+                this.First = (char)separated[0];
+                this.Middle = (char)separated[1];
+                this.Last = (char)separated[2];
+                this.IsValid = true;
+            }
+            else
+            {
+                First = (char)character;
+
+            }
         }
     }
 }

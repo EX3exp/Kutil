@@ -20,34 +20,91 @@ namespace Kutil.Formats.Korean
     public class Paragraph
     {
         /// <summary>
-        ///  속도 확보를 위해 res는 이 클래스에서 한 번만 생성, 이후 Sentence, Word 클래스들을 재귀적으로 생성. 생성된 
+        ///  속도 확보를 위해 res는 이 클래스에서 한 번만 생성, 이후 Sentence, Word 클래스들을 재귀적으로 생성.
         /// </summary>
         bool IsValid = false;
-        KResult[] KResults;
+        KResult Result;
         Sentence[] Sentences;
         string paragraph;
         public Paragraph(string paragraph, AnalizerType analizerType = AnalizerType.Kiwi, string? modelPath = null)
         {
             this.paragraph = paragraph;
-            if (paragraph.Split(' ').Length == 1)
+            if (paragraph.Split(' ').Length >= 1)
             {
                 using (MorphAnalizer Analizer = new MorphAnalizer(analizerType, modelPath))
                 {
-                    KResults = Analizer.Analyze(paragraph);
+                    Result = Analizer.Analyze(paragraph);
                 }
                 IsValid = true;
-                Sentence[] Sentences = new Sentence[KResults.Length];
+                Sentences = new Sentence[Result.SentLength];
+                
+                int maxSentenceLen = Result.SentLength;
 
-                for (int i = 0; i < KResults.Length; i++)
+                foreach (var k in Result.SentResults.Select((value, index)=>(value, index)))
                 {
-                    Sentences[i] = new Sentence(KResults[i]);
+                    if (string.IsNullOrWhiteSpace(paragraph))
+                    {
+                        Console.WriteLine("문단이 빈 문자열입니다.");
+                    }
+                    else
+                    {
+                        string sent = "";
+                        int firstPos = k.value.KTokens[0].charPosition;
+                        // 첫 번째 문장의 시작 인덱스 ~ 다음 문장의 시작 인덱스 - 1 로 각 문장들을 수집합니다.
+                        if (k.index == maxSentenceLen - 1)
+                        {
+                            sent = paragraph.Substring(firstPos, paragraph.Length - 1 - firstPos + 1);
+                        }
+                        else
+                        {
+                            int nextSentStartPos = Result.SentResults[k.index + 1].KTokens[0].charPosition;
+                            sent = paragraph.Substring(firstPos, nextSentStartPos - 1 - firstPos + 1);
+                        }
+
+                            Sentences[k.index] = new Sentence(sent.Trim(), k.value);
+                    }
+                    
                 }
+
             }
             else
             {
-                IsValid = false;
+                IsValid = false; // empty sentence
             }
 
+        }
+
+        public void Print() // 디버그용 함수.
+        {
+            if (!IsValid)
+            {
+                Console.WriteLine("Result가 null입니다");
+            }
+            else
+            {
+                int i = 1;
+                foreach (KSmallResult k in Result.SentResults)
+                {
+                    Console.WriteLine($"-- {i}번째 문장");
+                    Console.WriteLine(Sentences[i-1].ToString());
+                    foreach (KToken t in k.KTokens)
+                    {
+                        
+                        Console.Write($"form={t.form}   ");
+                        Console.Write($"morph={t.morph}   ");
+                        Console.Write($"lineNo={t.lineNo}   ");
+                        Console.Write($"sentPos={t.sentPosition}   ");
+                        Console.Write($"wordPos={t.wordPosition}   ");
+                        Console.Write($"charPos={t.charPosition}   ");
+                        Console.Write($"length={t.length}");
+                        Console.Write("\n");
+
+                    }
+                    Console.WriteLine("---\n");
+                    i++;
+                }
+            }
+                
         }
 
     }
@@ -58,10 +115,15 @@ namespace Kutil.Formats.Korean
         /// 
         /// </summary>
         bool IsValid = false;
-        KResult res;
+        KSmallResult res;
         Word[] Words;
         string sentence;
-        public Sentence(string sentence, KResult res)
+        public Sentence()
+        {
+            IsValid=false;
+
+        }
+        public Sentence(string sentence, KSmallResult res)
         {
             this.sentence = sentence;
             if (sentence.Split(' ').Length == 1)
@@ -83,6 +145,11 @@ namespace Kutil.Formats.Korean
                 IsValid = false;
             }
 
+        }
+
+        public override string ToString()
+        {
+            return sentence;
         }
     }
     public class Word
@@ -138,31 +205,36 @@ namespace Kutil.Formats.Korean
         /// <returns></returns>
         public bool HasYongeonEogan(out int YongeonNum)
         {
+            YongeonNum = 0;
+
             if (IsValid)
             {
-                if (res.KTokens.Length < 2)
-                {
-                    YongeonNum = 0;
-                    return false;
-                }
-                else if (res.morphs.Length > 2) {
-                    List<int> Yongeons = res.morphs.Where(m => m.tag.StartsWith("V")).Select((y, index) => index).ToList();
-                    if (Yongeons.Count > 0)
-                    {
-                        YongeonNum = Yongeons.Count;
-                        return true;
-                    }
-                    else
-                    {
-                        YongeonNum = 0;
-                        return false;
-                    }
-                }
-                else
-                {
-                    YongeonNum = 0;
-                    return false;
-                }
+                //if (res.length < 2)
+                //{
+                //    YongeonNum = 0;
+                //    return false;
+                //}
+                //else if (res.morph.length > 2) {
+                //    List<int> Yongeons = res.morphs.Where(m => m.tag.StartsWith("V")).Select((y, index) => index).ToList();
+                //    if (Yongeons.Count > 0)
+                //    {
+                //        YongeonNum = Yongeons.Count;
+                //        return true;
+                //    }
+                //    else
+                //    {
+                //        YongeonNum = 0;
+                //        return false;
+                //    }
+                //}
+                //else
+                //{
+                //    YongeonNum = 0;
+                //    return false;
+                //}
+                //TODO
+                return true;
+                
             }
             else
             {

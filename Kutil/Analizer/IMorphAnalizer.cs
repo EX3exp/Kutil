@@ -17,7 +17,7 @@ namespace Kutil.Analizer
         /// <summary>
         /// 형태소 분석기의 결과는 Kutil의 KResult로 변환되어 저장되어야 합니다.
         /// </summary>
-        public KResult[] Analyze(string sentence);
+        public KResult Analyze(string text);
 
 
     }

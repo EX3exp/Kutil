@@ -12,23 +12,20 @@ namespace Kutil.Test
     {
         
         [TestMethod]
-        public void TestVariation()
+        public void Test1()
         {
-            string input = "나는  밥을";
-            string expected = "나는  밥을";
-            string actual = Convert(input);
-            Assert.AreEqual(expected, actual);
+            string input = "아버지가방에들어가신다나는밥을먹었다 고양이는 귀엽다. 귀엽기 때문이다 그렇다\n아버지가 방에 들어가신다.\n들어가신다.들어가다. 들어갔다.고양이.";
+            Paragraph paragraph = new Paragraph(input);
+            paragraph.Print();
         }
 
         [TestMethod]
-        public void TestEogan()
+        public void Test2()
         {
-            string currentPath = Environment.CurrentDirectory;
-            string input = "먹어간다"; // 먹-, 가-
-            int expected = 2;
-            int actual;
-            new Word(input).HasYongeonEogan(out actual);
-            Assert.AreEqual(expected, actual);
+            string input = "고양이야옹";
+            Paragraph paragraph = new Paragraph(input);
+            paragraph.Print();
         }
+
     }
 }
